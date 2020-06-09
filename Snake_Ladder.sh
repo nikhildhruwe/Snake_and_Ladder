@@ -10,6 +10,12 @@ function ladder(){
 
 	pos=$(($pos+$diceRoll))
 
+	if (($pos>100))
+	then
+		echo "player got above 100,remain in same place"
+		pos=$(($pos-$diceRoll))
+	fi
+
 }
 
 function snake(){
@@ -22,7 +28,7 @@ function snake(){
 	fi
 }
 
-while (($pos!=100))
+while ((1))
 do
 	diceRoll=$(( RANDOM%6 +1 ))
 #	echo "dice rolled: $diceRoll"
@@ -38,5 +44,10 @@ do
 						snake $pos $diceRoll
 					;;
 	esac
-echo "Position :$pos"
+	echo "Position :$pos"
+	if (($pos==100))
+	then
+		echo "Player has reached position $pos"
+		break
+	fi
 done
