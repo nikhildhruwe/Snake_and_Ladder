@@ -37,7 +37,10 @@ do
 	case $check in
 					0) echo "No play: remain in same place"
 					;;
-					1)	echo "Ladder : move ahead by $diceRoll"
+					1)	if (( $(($pos+$diceRoll))<=100))
+						then
+							echo "Ladder : move ahead by $diceRoll"
+						fi
 						ladder $pos $diceRoll
 					;;
 					2)	echo "Snake  : move behind by $diceRoll"
