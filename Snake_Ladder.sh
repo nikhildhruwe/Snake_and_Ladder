@@ -7,7 +7,7 @@ pos1=0
 pos2=0
 dicePlayed2=0
 dicePlayed1=0
-echo -e "player at start position: $pos \n"
+echo -e "Player1 and Player2  at starting position 0\n"
 
 function ladder(){
    pos=$(($pos+$diceRoll))
@@ -16,7 +16,7 @@ function ladder(){
       echo "player got above 100,remain in same place"
       pos=$(($pos-$diceRoll))
    fi
-   echo "   Postion:$pos"
+   echo "   Position:$pos"
 }
 
 function snake(){
@@ -26,7 +26,7 @@ function snake(){
       echo "   restarting from postion: 0"
       pos=0
    fi
-   echo "   Postion:$pos"
+   echo "   Position:$pos"
 }
 
 function diceRoll(){
@@ -39,21 +39,34 @@ function game(){
          pos=$2
   check=$((RANDOM%3))
    case $check in
-               0) echo "   No play: remain in same place"
-                  echo "   Position: $pos"
+               0) echo "   option, No play: remain in same place"
+                  echo "   Position:$pos"
                ;;
                1) if (( $(($pos+$diceRoll))<=100))
                   then
-                     echo "   Ladder : move ahead by $diceRoll and play again"
+                     echo "   option, Ladder : move ahead by $diceRoll and play again"
                   fi
                   ladder $pos $diceRoll
-                  game $diceRoll $pos
+                  if (($pos!=100))
+						then
+							game $diceRoll $pos
+						fi
                ;;
-               2) echo "   Snake  : move behind by $diceRoll"
+               2) echo "   option, Snake  : move behind by $diceRoll"
                   snake $pos $diceRoll
                ;;
    esac
  return $pos
+}
+
+function winCheck(){
+	pos=$1
+	if (( $pos==100 ))
+	then
+       echo 1
+	else
+       echo 0
+	fi
 }
 
 ###***** Main Method*****
@@ -61,30 +74,32 @@ while ((1))
 do
    diceRoll1=$( diceRoll )
    #((dicePlayed1++))
-   echo "Player 1 , dice rolled:$diceRoll1"
+   echo -e "\nPlayer 1 , dice rolled:$diceRoll1"
    game $diceRoll1 $pos1
    pos1=$?
+	check=$(winCheck $pos1)
+	if (($check==1))
+	then
+		break;
+	fi
 
    diceRoll2=$( diceRoll )
    #((dicePlayed2++))
-   echo "Player 2 , dice rolled:$diceRoll2"
+   echo -e "\nPlayer 2 , dice rolled:$diceRoll2"
    game $diceRoll2 $pos2
    pos2=$?
-
-if (( $pos1==100 || $pos2==100 ))
-then
-        break
-fi
+	check=$(winCheck $pos2)
+   if (($check==1))
+   then
+      break;
+   fi
 done
 #echo -e "\nNumber of times Player 1 played: $dicePlayed1"
 #echo -e "Number of times Player 2 played: $dicePlayed2\n"
 
 if (($pos1==100))
 then
-   echo "Player 1 has Won the game"
+   echo -e "\nPlayer 1 has Won the game"
 else
-   echo "Player 2 has Won the game"
+   echo -e "\nPlayer 2 has Won the game"
 fi
-
-
-
