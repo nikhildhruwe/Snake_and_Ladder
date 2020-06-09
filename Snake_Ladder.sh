@@ -42,15 +42,20 @@ function game(){
                0) echo "   option, No play: remain in same place"
                   echo "   Position:$pos"
                ;;
-               1) if (( $(($pos+$diceRoll))<=100))
+               1) if (( $(($pos+$diceRoll))<100))
                   then
                      echo "   option, Ladder : move ahead by $diceRoll and play again"
                   fi
                   ladder $pos $diceRoll
-                  if (($pos!=100))
-						then
-							game $diceRoll $pos
-						fi
+						if (($pos!=100))
+                  then
+                     diceRoll=$((RANDOM%6+1))
+                     echo "   Dice rolled :$diceRoll"
+                     game $diceRoll $pos
+                  else
+                     echo "   Reached position $pos"
+                  fi
+
                ;;
                2) echo "   option, Snake  : move behind by $diceRoll"
                   snake $pos $diceRoll
