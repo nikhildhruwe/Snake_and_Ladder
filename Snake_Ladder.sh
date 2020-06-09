@@ -22,7 +22,7 @@ function snake(){
 	fi
 }
 
-while (($pos!=100))
+while ((1))
 do
 	diceRoll=$(( RANDOM%6 +1 ))
 #	echo "dice rolled: $diceRoll"
@@ -38,5 +38,10 @@ do
 						snake $pos $diceRoll
 					;;
 	esac
-echo "Position :$pos"
+	echo "Position :$pos"
+	if (($pos==100))
+	then
+		echo "Player has won"
+		break
+	fi
 done
