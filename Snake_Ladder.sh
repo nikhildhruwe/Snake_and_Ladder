@@ -22,11 +22,13 @@ function snake(){
 	fi
 }
 
-diceRoll=$(( RANDOM%6 +1 ))
-echo "dice rolled: $diceRoll"
+while (($pos!=100))
+do
+	diceRoll=$(( RANDOM%6 +1 ))
+#	echo "dice rolled: $diceRoll"
 
-check=$((RANDOM%3))
-case $check in
+	check=$((RANDOM%3))
+	case $check in
 					0) echo "No play: remain in same place"
 					;;
 					1)	echo "Ladder : move ahead by $diceRoll"
@@ -35,5 +37,6 @@ case $check in
 					2)	echo "Snake  : move behind by $diceRoll"
 						snake $pos $diceRoll
 					;;
-esac
+	esac
 echo "Position :$pos"
+done
