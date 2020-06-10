@@ -50,7 +50,8 @@ function game(){
 						if (($pos!=100))
                   then
                      diceRoll=$((RANDOM%6+1))
-                     echo "   Dice rolled :$diceRoll"
+              			((dicePlayed++))
+					      echo "   Dice rolled :$diceRoll"
                      game $diceRoll $pos
                   else
                      echo "   Reached position $pos"
@@ -77,30 +78,33 @@ function winCheck(){
 ###***** Main Method*****
 while ((1))
 do
+	dicePlayed=0
    diceRoll1=$( diceRoll )
-   #((dicePlayed1++))
+   ((dicePlayed1++))
    echo -e "\nPlayer 1 , dice rolled:$diceRoll1"
    game $diceRoll1 $pos1
    pos1=$?
+	dicePlayed1=$(($dicePlayed1+$dicePlayed))
 	check=$(winCheck $pos1)
 	if (($check==1))
 	then
 		break;
 	fi
-
+	dicePlayed=0
    diceRoll2=$( diceRoll )
-   #((dicePlayed2++))
+   ((dicePlayed2++))
    echo -e "\nPlayer 2 , dice rolled:$diceRoll2"
    game $diceRoll2 $pos2
    pos2=$?
+	dicePlayed2=$(($dicePlayed2+$dicePlayed))
 	check=$(winCheck $pos2)
    if (($check==1))
    then
       break;
    fi
 done
-#echo -e "\nNumber of times Player 1 played: $dicePlayed1"
-#echo -e "Number of times Player 2 played: $dicePlayed2\n"
+echo -e "\nNumber of times Player 1 played: $dicePlayed1"
+echo -e "Number of times Player 2 played: $dicePlayed2\n"
 
 if (($pos1==100))
 then
